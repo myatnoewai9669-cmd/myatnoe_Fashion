@@ -1,0 +1,145 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Inter,Arial,sans-serif;background:#fff;color:#222}
+a{text-decoration:none;color:inherit}
+.sp{display:grid;grid-template-columns:42% 58%;min-height:100vh}
+
+/* ===== Left panel: pink gradient, text on top, photo at the bottom ===== */
+.sp-left{
+  background:linear-gradient(180deg,#fad3df,#f4b3c6);
+  padding:48px;
+  position:relative;
+  overflow:hidden;
+  min-height:100vh;
+}
+.sp-logo{font-size:30px;font-weight:800;display:block;position:relative;z-index:2}
+.sp-left h1{font-size:40px;line-height:1.15;margin-top:28px;position:relative;z-index:2}
+.sp-left p{margin-top:12px;font-size:14px;color:#4a2f39;max-width:300px;line-height:1.6;position:relative;z-index:2}
+
+/* Photo sits at the bottom of the left panel */
+.rack{
+  position:absolute;left:0;right:0;bottom:0;
+  height:60%;
+  padding:0;
+  display:block;
+  z-index:1;
+}
+.rack img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  border-radius:28px 28px 0 0;
+  -webkit-mask-image:linear-gradient(to top,#000 75%,transparent);
+          mask-image:linear-gradient(to top,#000 75%,transparent);
+}
+
+/* Old animated bars (only used if you put <i> tags inside .rack) */
+.rack i{display:inline-block;flex:1;border-radius:12px 12px 0 0;background:#fff;opacity:.5;--o:.5}
+.rack i:nth-child(1){height:70%}
+.rack i:nth-child(2){height:95%;background:#8a6a5c;opacity:.7;--o:.7}
+.rack i:nth-child(3){height:80%;background:#3b3b3b;opacity:.6;--o:.6}
+.rack i:nth-child(4){height:100%}
+.rack i:nth-child(5){height:75%;background:#e8336d;opacity:.45;--o:.45}
+
+/* ===== Right panel / form ===== */
+.sp-right{display:grid;place-items:center;padding:40px}
+.sp-form{width:100%;max-width:380px}
+.sp-form h2{font-size:24px;margin-bottom:18px}
+.sp-form label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+.in{display:flex;align-items:center;gap:8px;border:1px solid #e3e3e3;border-radius:8px;padding:0 12px;background:#fff}
+.in:focus-within{border-color:#e8336d}
+.in span{color:#aaa;font-size:14px}
+.in input{flex:1;border:0;outline:0;padding:12px 0;font-size:14px;background:transparent}
+.in button{border:0;background:none;cursor:pointer;font-size:15px}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:14px 0}
+.row a{color:#e8336d}
+.btn-main{width:100%;padding:13px;border:0;border-radius:8px;background:#e8336d;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.or{text-align:center;font-size:12px;color:#999;margin:14px 0}
+.btn-g{display:block;width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fff;text-align:center;font-size:14px;cursor:pointer}
+.alt{text-align:center;font-size:13px;margin-top:18px;color:#555}
+.alt a{color:#e8336d;font-weight:600}
+.err{background:#ffe3e8;color:#c0204f;padding:10px;border-radius:8px;font-size:13px;margin-bottom:6px}
+
+/* Mobile: hide the left panel */
+@media(max-width:800px){.sp{grid-template-columns:1fr}.sp-left{display:none}}
+
+/* ================= ANIMATIONS ================= */
+
+/* 1. Panels slide in */
+.sp-left  { animation: slideL .9s cubic-bezier(.2,.8,.2,1) backwards; }
+.sp-right { animation: slideR .9s cubic-bezier(.2,.8,.2,1) backwards; }
+@keyframes slideL { from { opacity:0; transform:translateX(-60px); } }
+@keyframes slideR { from { opacity:0; transform:translateX(60px); } }
+
+/* 2. Left text fade-up */
+.sp-logo    { animation: fadeUp .7s ease .30s backwards; }
+.sp-left h1 { animation: fadeUp .7s ease .50s backwards; }
+.sp-left p  { animation: fadeUp .7s ease .70s backwards; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } }
+
+/* 3. Photo rises from the bottom */
+.rack img { animation: rise 1s cubic-bezier(.2,.8,.2,1) .5s backwards; }
+@keyframes rise { from { opacity:0; transform:translateY(60px); } }
+
+/* 3b. Bars grow (only if <i> bars are used) */
+.rack i {
+  transform-origin: bottom center;
+  animation:
+    grow 1s cubic-bezier(.2,.9,.3,1.15) backwards,
+    breathe 3.5s ease-in-out infinite;
+}
+.rack i:nth-child(1){ animation-delay: .5s,  1.6s; }
+.rack i:nth-child(2){ animation-delay: .65s, 2.0s; }
+.rack i:nth-child(3){ animation-delay: .8s,  2.4s; }
+.rack i:nth-child(4){ animation-delay: .95s, 2.8s; }
+.rack i:nth-child(5){ animation-delay: 1.1s, 3.2s; }
+@keyframes grow    { from { transform: scaleY(0); opacity:0; } to { transform: scaleY(1); opacity: var(--o); } }
+@keyframes breathe { 0%,100% { scale: 1 1; } 50% { scale: 1 1.05; } }
+
+/* 4. Form items staggered */
+.sp-form > * { animation: fadeUp .6s ease backwards; }
+.sp-form > :nth-child(1)  { animation-delay: .40s; }
+.sp-form > :nth-child(2)  { animation-delay: .47s; }
+.sp-form > :nth-child(3)  { animation-delay: .54s; }
+.sp-form > :nth-child(4)  { animation-delay: .61s; }
+.sp-form > :nth-child(5)  { animation-delay: .68s; }
+.sp-form > :nth-child(6)  { animation-delay: .75s; }
+.sp-form > :nth-child(7)  { animation-delay: .82s; }
+.sp-form > :nth-child(8)  { animation-delay: .89s; }
+.sp-form > :nth-child(9)  { animation-delay: .96s; }
+.sp-form > :nth-child(10) { animation-delay: 1.03s; }
+.sp-form > :nth-child(11) { animation-delay: 1.10s; }
+.sp-form > :nth-child(12) { animation-delay: 1.17s; }
+
+/* 5. Error shake */
+.sp-form > .err { animation: shake .5s ease backwards; animation-delay: .4s; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-8px); }
+  40%,80% { transform: translateX(8px); }
+}
+
+/* 6. Input focus */
+.in { transition: transform .25s, box-shadow .25s, border-color .25s; }
+.in:focus-within { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(232,51,109,.25); }
+
+/* 7. Buttons */
+.btn-main, .btn-g { transition: transform .2s, box-shadow .2s, filter .2s; }
+.btn-main:hover, .btn-g:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.15); filter: brightness(1.06); }
+.btn-main:active, .btn-g:active { transform: scale(.97); }
+
+/* 8. Link underline slide */
+.alt a, .row a { position: relative; }
+.alt a::after, .row a::after {
+  content:""; position:absolute; left:0; bottom:-2px;
+  width:0; height:2px; background:currentColor; transition: width .3s;
+}
+.alt a:hover::after, .row a:hover::after { width:100%; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rack i { animation: grow 1s backwards; }
+  .sp-left, .sp-right, .sp-form > * { animation: none; }
+}

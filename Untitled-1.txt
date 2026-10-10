@@ -1,0 +1,22 @@
+<?php
+function productCard($p) {
+    $price = $p['discount_price'] ?: $p['price'];
+    $img = $p['main_image']
+        ? '<img src="' . BASE_URL . '/assets/img/products/' . e($p['main_image']) . '" alt="' . e($p['name']) . '">'
+        : '👗';
+    ?>
+    <a class="card" href="<?= BASE_URL ?>/product.php?slug=<?= e($p['slug']) ?>">
+      <div class="img"><?= $img ?></div>
+      <div class="info">
+        <div class="name"><?= e($p['name']) ?></div>
+        <div class="price">
+          <?= rupiah($price) ?>
+          <?php if ($p['discount_price']): ?><small><?= rupiah($p['price']) ?></small><?php endif; ?>
+        </div>
+        <?php if (!empty($p['rating'])): ?>
+          <div class="rating">★ <?= e($p['rating']) ?></div>
+        <?php endif; ?>
+      </div>
+    </a>
+    <?php
+}
